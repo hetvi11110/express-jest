@@ -6,6 +6,8 @@
 const TodoController = require('../../controllers/todo.contoller');
 
 /* 
+* https://jestjs.io/docs/cli#--configpath
+*
 * Introduction: More Resources: Api References: Globals: describe(name, fn): https://jestjs.io/docs/api#describename-fn
 * creates a block that groups together several related tests.
 * 
@@ -23,7 +25,7 @@ const TodoController = require('../../controllers/todo.contoller');
 describe('TodoController.createTodo', () => {
     test('should have a createTodo function', () => {
         // The typeof operator returns a string indicating the type of the operand's value.
-        console.log(typeof TodoController.createTodo);
+        // console.log(typeof TodoController.createTodo);
         expect(typeof TodoController.createTodo).toBe('function');
     });
 });
