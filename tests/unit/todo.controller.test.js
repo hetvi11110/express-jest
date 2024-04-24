@@ -3,7 +3,20 @@
 * Modules: CommonJS modules: require(id): https://nodejs.org/docs/latest/api/modules.html#requireid
 * In Node.js, each file is treated as a separate module. For example, consider a file named
 */
-const TodoController = require('../../controllers/todo.contoller');
+const TodoController    = require('../../controllers/todo.contoller');
+const TodoModel         = require('../../model/todo.model');
+// https://www.npmjs.com/package/node-mocks-http
+const httpMocks         = require('node-mocks-http');
+
+/* 
+* https://mongoosejs.com/docs/models.html#constructing-documents
+*
+* to test dependencies use mock 
+* Api References: The jest object: jest.fn(implementation?): Returns a new, unused mock function. Optionally takes a mock implementation.
+* Api References: Mock Functions: Mock functions are also known as "spies", because they let you spy on the behavior of a function that is called indirectly by some other code, rather than only testing the output. You can create a mock function with jest.fn(). If no implementation is given, the mock function will return undefined when invoked.
+* https://jestjs.io/docs/jest-object#jestfnimplementation
+*/
+TodoModel.create = jest.fn();
 
 /* 
 * https://jestjs.io/docs/cli#--configpath
@@ -23,9 +36,20 @@ const TodoController = require('../../controllers/todo.contoller');
 */
 
 describe('TodoController.createTodo', () => {
+
     test('should have a createTodo function', () => {
         // The typeof operator returns a string indicating the type of the operand's value.
-        // console.log(typeof TodoController.createTodo);
+        //console.log(typeof TodoModel);
         expect(typeof TodoController.createTodo).toBe('function');
+    });
+
+    test('should call TodoModel.create',() => {
+        let req,res,next;
+        req = httpMocks.createResponse();
+        res = httpMocks.createResponse();
+        next = null;
+        //called function from todo.contoller.js
+        TodoController.createTodo(req, res, next);
+        expect(TodoModel.create).toBeCalled();
     });
 });
